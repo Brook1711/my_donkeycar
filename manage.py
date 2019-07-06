@@ -58,8 +58,11 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
     V = dk.vehicle.Vehicle()
     # 初始化TCP连接
     from new_models import tcp
-    mytcp = tcp(SERVER_IP= "192.168.43.7", SERVER_PORT=8888)
+    the_ip_you_want = input("input the ip you want to transfor:")
+    str_the_ip = str(the_ip_you_want)
+    mytcp = tcp(SERVER_IP= str_the_ip, SERVER_PORT=8888)
     mytcp.send_start()
+    print("Initialize tcp")
 
     if camera_type == "stereo":
 
@@ -457,8 +460,20 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
                                         min_pulse=cfg.THROTTLE_REVERSE_PWM)
         V.add(send_throttle, inputs=['throttle'])
     elif cfg.DRIVE_TRAIN_TYPE == "WIRELESS":
-        from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
-
+        #增加角度信号打印
+        from new_models import SENDSTEERINGPulse
+        send_steering = SENDSTEERINGPulse(tcp_sender=mytcp,
+                         left_pulse=cfg.STEERING_LEFT_PWM,
+                         right_pulse=cfg.STEERING_RIGHT_PWM
+                        ) 
+        V.add(send_steering, inputs=['angle'])
+        #油门信号打印
+        from new_models import SENDThrottlePulse
+        send_throttle = SENDThrottlePulse(tcp_sender=mytcp,
+                                        max_pulse=cfg.THROTTLE_FORWARD_PWM,
+                                        zero_pulse=cfg.THROTTLE_STOPPED_PWM, 
+                                        min_pulse=cfg.THROTTLE_REVERSE_PWM)
+        V.add(send_throttle, inputs=['throttle'])
 
 
     elif cfg.DRIVE_TRAIN_TYPE == "DC_STEER_THROTTLE":

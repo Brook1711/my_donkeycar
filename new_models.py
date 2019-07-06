@@ -24,7 +24,7 @@ class SENDSTEERINGPulse:
 
         #print(pulse)
         pulse = str(pulse)
-        self.tcp_sender.send_steering_data(pulse)
+        self.tcp_sender.send_steering_data('S' + pulse + '\n')
 
     def shutdown(self):
         self.run(0) #set steering straight
@@ -59,7 +59,7 @@ class SENDThrottlePulse:
 
         #print(pulse)
         pulse=str(pulse)
-        self.tcp_sender.send_throttle_data(pulse)
+        self.tcp_sender.send_throttle_data('T' + pulse + '\n')
         
     def shutdown(self):
         self.run(0) #stop vehicle
