@@ -214,7 +214,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
         for count, color in cfg.RECORD_ALERT_COLOR_ARR:
             if num_records >= count:
                 col = color
-        return col    
+        return col
 
     class RecordTracker:
         def __init__(self):
@@ -445,20 +445,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
 
         V.add(steering, inputs=['angle'])
         V.add(throttle, inputs=['throttle'])
-        #增加角度信号打印
-        from new_models import SENDSTEERINGPulse
-        send_steering = SENDSTEERINGPulse(tcp_sender=mytcp,
-                         left_pulse=cfg.STEERING_LEFT_PWM,
-                         right_pulse=cfg.STEERING_RIGHT_PWM
-                        ) 
-        V.add(send_steering, inputs=['angle'])
-        #油门信号打印
-        from new_models import SENDThrottlePulse
-        send_throttle = SENDThrottlePulse(tcp_sender=mytcp,
-                                        max_pulse=cfg.THROTTLE_FORWARD_PWM,
-                                        zero_pulse=cfg.THROTTLE_STOPPED_PWM, 
-                                        min_pulse=cfg.THROTTLE_REVERSE_PWM)
-        V.add(send_throttle, inputs=['throttle'])
+       
     elif cfg.DRIVE_TRAIN_TYPE == "WIRELESS":
         #增加角度信号打印
         from new_models import SENDSTEERINGPulse

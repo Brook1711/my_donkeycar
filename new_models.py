@@ -2,6 +2,9 @@ import time
 import donkeycar as dk
 import socket
 import sys
+import numpy as np
+
+
 class SENDSTEERINGPulse:
     LEFT_ANGLE = -1 
     RIGHT_ANGLE = 1

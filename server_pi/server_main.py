@@ -29,6 +29,10 @@ str=str.encode()
 #GPIO.setmode(GPIO.BOARD)
 #GPIO.setup(11,GPIO.OUT)
 print("Receiving package...")
+print("setting pwm...")
+from  donkeycar.parts.actuator import PCA9685
+import
+controller = PCA9685
 while True:
     data=socket_con.recv(512)
     data= data.decode()
